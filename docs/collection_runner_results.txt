@@ -1,0 +1,230 @@
+﻿Policy Management System API
+
+ΓåÆ Login
+  POST https://pms.srv1505121.hstgr.cloud/api/v1/auth/login [200 OK, 876B, 488ms]
+  ΓêÜ  Check login works - status 200
+  ΓêÜ  Login response is quick enough
+  ΓêÜ  We got a JWT token back
+  ΓêÜ  User info includes role
+
+ΓåÆ Create Account
+  POST https://pms.srv1505121.hstgr.cloud/api/v1/accounts [201 Created, 979B, 91ms]
+  ΓêÜ  Account creation returns 201
+  ΓêÜ  Fast response for account creation
+  ΓêÜ  New account has an ID assigned
+  ΓêÜ  Email is returned in response
+  ΓêÜ  Content-Type is application/json
+
+Γûí Policies
+Γöö Create Policy
+  POST https://pms.srv1505121.hstgr.cloud/api/v1/policies [201 Created, 946B, 90ms]
+  ΓêÜ  Policy created - status 201
+  ΓêÜ  Response time ok
+  ΓêÜ  Policy has id, policy_number and status
+
+Γöö Get All Policies
+  GET https://pms.srv1505121.hstgr.cloud/api/v1/policies [200 OK, 10.38kB, 94ms]
+  ΓêÜ  List policies returns 200
+  ΓêÜ  Under 2 seconds
+  ΓêÜ  Returns an array of policies
+  ΓêÜ  Pagination info present
+
+Γöö Get Policy by ID
+  GET https://pms.srv1505121.hstgr.cloud/api/v1/policies/a9eae64d-d908-4a8e-a236-3f2a8d19b85e [200 OK, 1.07kB, 89ms]
+  ΓêÜ  Get by ID works - 200
+  ΓêÜ  Response time ok
+  ΓêÜ  Policy has all expected fields
+
+Γöö Update Policy (full)
+  PATCH https://pms.srv1505121.hstgr.cloud/api/v1/policies/a9eae64d-d908-4a8e-a236-3f2a8d19b85e [200 OK, 946B, 87ms]
+  ΓêÜ  Update returns 200
+  ΓêÜ  Response time is under 2s
+  ΓêÜ  Policy was actually updated
+
+Γöö Update Policy (partial)
+  PATCH https://pms.srv1505121.hstgr.cloud/api/v1/policies/a9eae64d-d908-4a8e-a236-3f2a8d19b85e [200 OK, 949B, 85ms]
+  ΓêÜ  Partial update - 200 OK
+  ΓêÜ  Response time under 2 sec
+  ΓêÜ  Status changed to cancelled
+
+Γöö Update Policy (PUT)
+  PUT https://pms.srv1505121.hstgr.cloud/api/v1/policies/a9eae64d-d908-4a8e-a236-3f2a8d19b85e [200 OK, 941B, 88ms]
+  ΓêÜ  PUT update works - 200
+  ΓêÜ  Response time < 2 seconds
+  ΓêÜ  Updated policy has required fields
+
+Γöö Create Endorsement
+  POST https://pms.srv1505121.hstgr.cloud/api/v1/policies/a9eae64d-d908-4a8e-a236-3f2a8d19b85e/endorsements [201 Created, 869B, 89ms]
+  ΓêÜ  Endorsement created - 201
+  ΓêÜ  Response time under 2 secs
+  ΓêÜ  Has endorsement id and type
+
+Γöö Get All Endorsements
+  GET https://pms.srv1505121.hstgr.cloud/api/v1/policies/a9eae64d-d908-4a8e-a236-3f2a8d19b85e/endorsements [200 OK, 851B, 86ms]
+  ΓêÜ  Get endorsements returns 200
+  ΓêÜ  Response time < 2 seconds
+  ΓêÜ  Returns array of endorsements
+
+Γöö Delete Endorsement (endpoint not implemented)
+  DELETE https://pms.srv1505121.hstgr.cloud/api/v1/endorsements/42cad0d3-bc8f-410d-97d8-71c0c4973d23 [404 Not Found, 271B, 83ms]
+  ΓêÜ  Status 404 - endpoint not implemented
+  ΓêÜ  Response time under 2s
+  ΓêÜ  Content-Type is HTML (API returns 404 page)
+  ΓêÜ  Response body is empty on 404
+
+Γöö Delete Policy
+  DELETE https://pms.srv1505121.hstgr.cloud/api/v1/policies/a9eae64d-d908-4a8e-a236-3f2a8d19b85e [204 No Content, 412B, 87ms]
+  ΓêÜ  Delete returns 204
+  ΓêÜ  Fast response for delete
+  ΓêÜ  Body is empty on 204
+
+Γûí Accounts
+Γöö Get All Accounts
+  GET https://pms.srv1505121.hstgr.cloud/api/v1/accounts [200 OK, 2.02kB, 93ms]
+  ΓêÜ  Get accounts - 200 OK
+  ΓêÜ  Response time is fine
+  ΓêÜ  Accounts array returned
+
+Γöö Delete Account
+  DELETE https://pms.srv1505121.hstgr.cloud/api/v1/accounts/fa318fe8-a979-42ab-bba3-6ad95b079d7d [204 No Content, 412B, 96ms]
+  ΓêÜ  Delete account - 204
+  ΓêÜ  Quick delete
+  ΓêÜ  No body on 204
+
+Γûí Negative Scenarios
+Γöö Setup: Create Account for Negatives
+  POST https://pms.srv1505121.hstgr.cloud/api/v1/accounts [201 Created, 963B, 91ms]
+  ΓêÜ  Status 201 account created
+  ΓêÜ  Response time under 2s
+  ΓêÜ  Has data.id for new account
+
+Γöö Setup: Create Policy for Negatives
+  POST https://pms.srv1505121.hstgr.cloud/api/v1/policies [201 Created, 946B, 91ms]
+  ΓêÜ  Status 201 policy created
+  ΓêÜ  Response time under 2s
+  ΓêÜ  Has data.id for negatives
+
+Γöö Create Policy - missing insurance_type -> 422
+  POST https://pms.srv1505121.hstgr.cloud/api/v1/policies [422 Unprocessable Entity, 595B, 86ms]
+  ΓêÜ  Status is 422 for missing insurance_type
+  ΓêÜ  Response has error message
+  ΓêÜ  Response time is reasonable
+
+Γöö Create Policy - invalid premium type -> 422
+  POST https://pms.srv1505121.hstgr.cloud/api/v1/policies [422 Unprocessable Entity, 622B, 128ms]
+  ΓêÜ  Status 422 when premium sent as string
+  ΓêÜ  Error response is json
+  ΓêÜ  Response has some validation error
+  ΓêÜ  Response time under 2s
+
+Γöö Create Policy - non-existent account_id -> 422
+  POST https://pms.srv1505121.hstgr.cloud/api/v1/policies [422 Unprocessable Entity, 595B, 87ms]
+  ΓêÜ  Status is 422 for non-existent account_id
+  ΓêÜ  Response time under 2s
+  ΓêÜ  Error body returned
+
+Γöö Create Policy - no auth token -> 401
+  POST https://pms.srv1505121.hstgr.cloud/api/v1/policies [401 Unauthorized, 513B, 84ms]
+  ΓêÜ  Status 401 without auth header
+  ΓêÜ  Response time < 2s
+  ΓêÜ  Error says unauthorized or similar
+
+Γöö Create Policy - malformed JSON body -> 400
+  POST https://pms.srv1505121.hstgr.cloud/api/v1/policies [400 Bad Request, 273B, 83ms]
+  ΓêÜ  Status 400 for malformed JSON body
+  ΓêÜ  Response time under 2s
+  ΓêÜ  Response body is empty on 400
+
+Γöö Get Policy - non-existent ID -> 404
+  GET https://pms.srv1505121.hstgr.cloud/api/v1/policies/00000000-0000-0000-0000-000000000000 [404 Not Found, 482B, 86ms]
+  ΓêÜ  Status 404 for non-existent policy
+  ΓêÜ  Response time under 2 seconds
+  ΓêÜ  Response has error info
+
+Γöö Get Policy - malformed ID -> 404
+  GET https://pms.srv1505121.hstgr.cloud/api/v1/policies/abc [404 Not Found, 482B, 86ms]
+  ΓêÜ  Status 404 for malformed/non-UUID ID
+  ΓêÜ  Response sent as json
+  ΓêÜ  Is an error response
+  ΓêÜ  Response time under 2s
+
+Γöö Update Policy - no auth token -> 401
+  PATCH https://pms.srv1505121.hstgr.cloud/api/v1/policies/cb5b75fc-9ccb-4bf4-94c5-3af613e5ce47 [401 Unauthorized, 513B, 86ms]
+  ΓêÜ  Status is 401 without auth
+  ΓêÜ  Response time < 2 seconds
+  ΓêÜ  Response has error text
+
+Γöö Update Policy - invalid status -> 422
+  PATCH https://pms.srv1505121.hstgr.cloud/api/v1/policies/cb5b75fc-9ccb-4bf4-94c5-3af613e5ce47 [422 Unprocessable Entity, 546B, 90ms]
+  ΓêÜ  Status code 422 for bad status value
+  ΓêÜ  Response time under 2 sec
+  ΓêÜ  Validation error shown
+
+Γöö Delete Policy - non-existent ID -> 404
+  DELETE https://pms.srv1505121.hstgr.cloud/api/v1/policies/00000000-0000-0000-0000-000000000000 [404 Not Found, 507B, 84ms]
+  ΓêÜ  Status 404 for deleting non-existent policy
+  ΓêÜ  Response time < 2s
+  ΓêÜ  Error message is returned
+
+Γöö Delete Policy - no auth token -> 401
+  DELETE https://pms.srv1505121.hstgr.cloud/api/v1/policies/cb5b75fc-9ccb-4bf4-94c5-3af613e5ce47 [401 Unauthorized, 513B, 81ms]
+  ΓêÜ  Status 401 when deleting without auth
+  ΓêÜ  Fast response time
+  ΓêÜ  Tells us we are not authenticated
+
+Γöö Get All Accounts - insufficient permissions -> 403
+  GET https://pms.srv1505121.hstgr.cloud/api/v1/accounts [401 Unauthorized, 488B, 82ms]
+  ΓêÜ  Status 403 expected, tolerates 401 if no RBAC
+  ΓêÜ  Response time under 2s
+  ΓêÜ  Error message mentions auth/forbidden
+
+Γöö Get Account by ID - insufficient permissions -> 403
+  GET https://pms.srv1505121.hstgr.cloud/api/v1/accounts/fa318fe8-a979-42ab-bba3-6ad95b079d7d [401 Unauthorized, 488B, 83ms]
+  ΓêÜ  Status 403 expected, tolerates 401 if no RBAC
+  ΓêÜ  Response time under 2s
+  ΓêÜ  Error message mentions auth/forbidden
+
+Γöö Create Account - missing email -> 422
+  POST https://pms.srv1505121.hstgr.cloud/api/v1/accounts [422 Unprocessable Entity, 551B, 94ms]
+  ΓêÜ  Status 422 when email missing
+  ΓêÜ  Response time < 2 seconds
+  ΓêÜ  Error about required email field
+
+Γöö Create Account - invalid email format -> 422
+  POST https://pms.srv1505121.hstgr.cloud/api/v1/accounts [422 Unprocessable Entity, 528B, 87ms]
+  ΓêÜ  422 for invalid email format
+  ΓêÜ  Responds with json content type
+  ΓêÜ  Some validation error shown
+  ΓêÜ  Response time under 2s
+
+Γöö Login - wrong credentials -> 401
+  POST https://pms.srv1505121.hstgr.cloud/api/v1/auth/login [401 Unauthorized, 526B, 82ms]
+  ΓêÜ  Status 401 for bad login
+  ΓêÜ  Response time < 2s
+  ΓêÜ  Error message about invalid credentials
+
+Γöö Login - empty body -> 401
+  POST https://pms.srv1505121.hstgr.cloud/api/v1/auth/login [401 Unauthorized, 526B, 84ms]
+  ΓêÜ  Status 401 when login body is empty
+  ΓêÜ  Response time is fast
+  ΓêÜ  Some error returned
+
+ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö¼ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö¼ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé                         Γöé           executed Γöé            failed Γöé
+Γö£ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöñ
+Γöé              iterations Γöé                  1 Γöé                 0 Γöé
+Γö£ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöñ
+Γöé                requests Γöé                 33 Γöé                 0 Γöé
+Γö£ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöñ
+Γöé            test-scripts Γöé                 33 Γöé                 0 Γöé
+Γö£ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöñ
+Γöé      prerequest-scripts Γöé                  1 Γöé                 0 Γöé
+Γö£ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöñ
+Γöé              assertions Γöé                107 Γöé                 0 Γöé
+Γö£ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö┤ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö┤ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöñ
+Γöé total run duration: 6.1s                                         Γöé
+Γö£ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöñ
+Γöé total data received: 16.31kB (approx)                            Γöé
+Γö£ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöñ
+Γöé average response time: 100ms [min: 81ms, max: 488ms, s.d.: 68ms] Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ

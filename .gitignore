@@ -1,0 +1,8 @@
+node_modules/
+.env
+*.log
+scripts/api_results.json
+scripts/api_results.csv
+api_results.json
+pms_environment.json
+tmp_*.py
