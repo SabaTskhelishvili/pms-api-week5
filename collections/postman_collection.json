@@ -207,7 +207,8 @@
                   "const password = pm.collectionVariables.get('password') || pm.environment.get('password');",
                   "if (!email || !password) {",
                   "    console.warn('Set email and password as collection or environment variables');",
-                  "}"
+                  "}",
+                  "pm.request.headers.add({ \"key\": \"Content-Type\", \"value\": \"application/json\" });"
                 ],
                 "type": "text/javascript"
               }
@@ -244,13 +245,7 @@
           ],
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
@@ -300,6 +295,15 @@
                 ],
                 "type": "text/javascript"
               }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.request.headers.add({ \"key\": \"Content-Type\", \"value\": \"application/json\" });"
+                ],
+                "type": "text/javascript"
+              }
             }
           ],
           "request": {
@@ -308,11 +312,6 @@
               {
                 "key": "Authorization",
                 "value": "Bearer {{auth_token}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
               }
             ],
             "body": {
@@ -359,6 +358,15 @@
                 ],
                 "type": "text/javascript"
               }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.request.headers.add({ \"key\": \"Content-Type\", \"value\": \"application/json\" });"
+                ],
+                "type": "text/javascript"
+              }
             }
           ],
           "request": {
@@ -367,11 +375,6 @@
               {
                 "key": "Authorization",
                 "value": "Bearer {{auth_token}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
               }
             ],
             "body": {
@@ -461,6 +464,15 @@
                 ],
                 "type": "text/javascript"
               }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.request.headers.add({ \"key\": \"Content-Type\", \"value\": \"application/json\" });"
+                ],
+                "type": "text/javascript"
+              }
             }
           ],
           "request": {
@@ -469,11 +481,6 @@
               {
                 "key": "Authorization",
                 "value": "Bearer {{auth_token}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
               }
             ],
             "body": {
