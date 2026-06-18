@@ -35,7 +35,6 @@
       "key": "forged_token",
       "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwicm9sZSI6InVzZXIifQ.abc123",
       "type": "default"
-    },
-
+    }
   ]
 }
