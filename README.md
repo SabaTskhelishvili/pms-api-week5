@@ -58,9 +58,23 @@ Set `email` and `password` as Postman collection variables or environment variab
 | GET    | `/policies/:policy_id/endorsements` | List endorsements for a policy |
 | DELETE | *(not supported — API returns 404)* | Delete endorsement |
 
-## Request Chaining
+## Collection Structure
 
-The collection is ordered so that dependent values flow automatically:
+The collection contains 7 top-level groups:
+
+| Folder | Items | Purpose |
+|--------|-------|---------|
+| `Login` | 1 | Auth — single request |
+| `Create Account` | 1 | Account creation — single request |
+| `CRUD Lifecycle` | 8 | Sequential CRUD chain (for Collection Runner or Flow) |
+| `Flows` | 1 | `newman-flows`-compatible flow definition (FLOW method) |
+| `Policies` | 10 | Positive policy tests + endorsements |
+| `Accounts` | 2 | Positive account tests |
+| `Negative Scenarios` | 19 | 2 setup + 17 negative tests |
+
+### Request Chaining
+
+Dependent values flow automatically through collection variables:
 
 ```
 Login → Create Account → Create Policy → Get All Policies
@@ -90,7 +104,9 @@ Each request (positive and negative) includes **at least 3 assertions** in the T
 
 Run the full collection via **Collection Runner** (Run button) to see a pass/fail test report.
 
-## One-Click CRUD Lifecycle
+## CRUD Lifecycle
+
+### Collection Runner
 
 A **`CRUD Lifecycle`** folder in the collection chains all 8 steps:
 ```
@@ -100,6 +116,19 @@ Login -> Create Account -> Create Policy -> Get Policy
 ```
 
 Run it via **Collection Runner**: select only the `CRUD Lifecycle` folder and click Run. All 8 steps execute in order with automatic variable chaining — no manual copy-pasting needed.
+
+### Postman Flow (Visual Pipeline)
+
+A **`Flows`** folder is included in the collection with a `newman-flows`-compatible definition (method: `FLOW`, pre-request script with `steps([...])`).
+
+For the **visual Postman Flow**, Postman's Flows tab does not support JSON import/export. Build it manually:
+1. Open Postman Desktop
+2. Go to **Flows** tab > **+ New Flow**
+3. Add 8 **HTTP Request** blocks pointing to each request in the `CRUD Lifecycle` folder
+4. Add 3 **Select** blocks to extract `auth_token` (Login → `body.token`), `account_id` (Create Account → `body.data.id`), `policy_id` (Create Policy → `body.data.id`)
+5. Wire blocks and variables as documented in `docs/flow-build-guide.md`
+6. Click **Run** to execute the full pipeline
+7. Screenshot the canvas and save to `docs/screenshot-flow.png`
 
 ## Test Results (Actual)
 
@@ -136,13 +165,9 @@ All test results, screenshots, and documentation are in the `docs/` folder.
 | `docs/collection_runner_results.txt` | Full run output (41/41, 135 assertions, 0 failures) |
 | `docs/screenshot-runner.png` | Collection Runner screenshot for submission |
 | `docs/test_documentation.xlsx` | 5-sheet Excel: outlines, catalogs, bug reports |
-
-Additional supporting files:
-
-| File | Description |
-|------|-------------|
-| `collections/pms_environment.json` | Environment variables file — import into Postman to set `{{base_url}}`, `{{email}}`, `{{password}}`, etc. |
-| `flows/policy-lifecycle-flow.json` | Postman Flow definition — import via Postman Flows tab for a one-click visual CRUD pipeline |
+| `docs/flow-build-guide.md` | Step-by-step instructions for building the Flow in Postman Flows tab |
+| `flows/policy-lifecycle-flow.json` | Flow blueprint (reference only — Postman cannot import this format; build manually) |
+| `collections/pms_environment.json` | Environment variables — import into Postman to set `{{base_url}}`, `{{email}}`, `{{password}}`, etc. |
 
 ## Notes
 

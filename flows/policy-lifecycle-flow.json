@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Policy CRUD Lifecycle Flow",
-    "description": "8-step CRUD lifecycle: Login → Create Account → Create Policy → Get Policy → Update Policy → Get Policy (verify) → Delete Policy → Get Policy (verify 404). Variables are chained automatically via Select blocks.",
+    "description": "8-step CRUD lifecycle: Login → Create Account → Create Policy → Get Policy → Update Policy → Get Policy (verify) → Delete Policy → Get Policy (verify 404). Variables are chained automatically via Select blocks.\n\nNOTE: This is a REFERENCE blueprint only. Postman Flows has no import/export support (confirmed 2026). Build the flow manually in the Postman Flows tab using the build guide at docs/flow-build-guide.md.",
     "schema": "https://schema.getpostman.com/json/flow/v1/flow.json"
   },
   "blocks": [

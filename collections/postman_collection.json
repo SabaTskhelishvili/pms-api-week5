@@ -635,6 +635,48 @@
       ]
     },
     {
+      "name": "Flows",
+      "item": [
+        {
+          "name": "Policy CRUD Lifecycle Flow",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "steps([",
+                  "  'CRUD Lifecycle/Login',",
+                  "  'CRUD Lifecycle/Create Account',",
+                  "  'CRUD Lifecycle/Create Policy',",
+                  "  'CRUD Lifecycle/Get Policy by ID',",
+                  "  'CRUD Lifecycle/Update Policy (full)',",
+                  "  'CRUD Lifecycle/Get Policy by ID (verify update)',",
+                  "  'CRUD Lifecycle/Delete Policy',",
+                  "  'CRUD Lifecycle/Get Policy by ID (verify deletion)'",
+                  "]);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "FLOW",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Policies",
       "description": "CRUD operations for the Policy entity. Run Create Policy first to set created_policy_id, then the rest.",
       "item": [
