@@ -509,6 +509,13 @@
                   "    pm.expect(d.id).to.exist;",
                   "    pm.expect(d.account).to.exist;",
                   "    pm.expect(d.endorsements).to.exist;",
+                  "});",
+                  "",
+                  "pm.test(\"Updated values persisted correctly\", function () {",
+                  "    var d = pm.response.json().data;",
+                  "    pm.expect(d.insurance_type).to.eql(\"professional_liability\");",
+                  "    pm.expect(d.premium).to.eql(150000);",
+                  "    pm.expect(d.coverage).to.eql(200000000);",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -1359,13 +1366,13 @@
           "response": []
         },
         {
-          "name": "Create Policy - missing insurance_type -> 422",
+          "name": "Create Policy - missing premium -> 422",
           "event": [
             {
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Status is 422 for missing insurance_type\", () => {",
+                  "pm.test(\"Status is 422 for missing premium\", () => {",
                   "    pm.response.to.have.status(422);",
                   "});",
                   "",
@@ -1405,7 +1412,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"policy\": {\n    \"account_id\": \"{{created_account_id}}\",\n    \"status\": \"active\",\n    \"premium\": 120000,\n    \"coverage\": 100000000\n  }\n}"
+              "raw": "{\n  \"policy\": {\n    \"account_id\": \"{{created_account_id}}\",\n    \"insurance_type\": \"general_liability\",\n    \"status\": \"active\",\n    \"coverage\": 100000000\n  }\n}"
             }
           }
         },

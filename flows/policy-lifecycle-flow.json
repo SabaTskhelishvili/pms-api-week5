@@ -1,0 +1,429 @@
+{
+  "info": {
+    "name": "Policy CRUD Lifecycle Flow",
+    "description": "8-step CRUD lifecycle: Login → Create Account → Create Policy → Get Policy → Update Policy → Get Policy (verify) → Delete Policy → Get Policy (verify 404). Variables are chained automatically via Select blocks.",
+    "schema": "https://schema.getpostman.com/json/flow/v1/flow.json"
+  },
+  "blocks": [
+    {
+      "id": "block_login",
+      "type": "httpRequest",
+      "name": "Login",
+      "mode": "manual",
+      "position": { "x": 80, "y": 80 },
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/auth/login",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\"\n}"
+        }
+      },
+      "variables": [],
+      "ports": {
+        "inputs": [
+          { "id": "start", "label": "start", "type": "trigger" }
+        ],
+        "outputs": [
+          { "id": "success", "label": "success", "type": "response" },
+          { "id": "failure", "label": "failure", "type": "error" }
+        ]
+      }
+    },
+    {
+      "id": "block_select_auth_token",
+      "type": "select",
+      "name": "Extract auth_token",
+      "position": { "x": 360, "y": 80 },
+      "config": {
+        "expression": "body.token",
+        "description": "Extracts JWT token from Login response"
+      },
+      "ports": {
+        "inputs": [
+          { "id": "input", "label": "input", "type": "data" }
+        ],
+        "outputs": [
+          { "id": "output", "label": "output", "type": "data" }
+        ]
+      }
+    },
+    {
+      "id": "block_create_account",
+      "type": "httpRequest",
+      "name": "Create Account",
+      "mode": "manual",
+      "position": { "x": 80, "y": 260 },
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/accounts",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"account\": {\n    \"first_name\": \"Flow\",\n    \"last_name\": \"User\",\n    \"email\": \"flow.user@example.com\",\n    \"phone\": \"+995511111111\",\n    \"address\": {\n      \"address_line1\": \"123 Flow St\",\n      \"city\": \"Test City\",\n      \"state\": \"TC\",\n      \"zip_code\": \"12345\"\n    }\n  }\n}"
+        }
+      },
+      "variables": [
+        { "key": "auth_token", "type": "string" }
+      ],
+      "ports": {
+        "inputs": [
+          { "id": "start", "label": "start", "type": "trigger" },
+          { "id": "var_auth_token", "label": "auth_token", "type": "variable" }
+        ],
+        "outputs": [
+          { "id": "success", "label": "success", "type": "response" },
+          { "id": "failure", "label": "failure", "type": "error" }
+        ]
+      }
+    },
+    {
+      "id": "block_select_account_id",
+      "type": "select",
+      "name": "Extract account_id",
+      "position": { "x": 360, "y": 260 },
+      "config": {
+        "expression": "body.data.id",
+        "description": "Extracts created account ID from Create Account response"
+      },
+      "ports": {
+        "inputs": [
+          { "id": "input", "label": "input", "type": "data" }
+        ],
+        "outputs": [
+          { "id": "output", "label": "output", "type": "data" }
+        ]
+      }
+    },
+    {
+      "id": "block_create_policy",
+      "type": "httpRequest",
+      "name": "Create Policy",
+      "mode": "manual",
+      "position": { "x": 80, "y": 440 },
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/policies",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"policy\": {\n    \"account_id\": \"{{created_account_id}}\",\n    \"insurance_type\": \"general_liability\",\n    \"status\": \"active\",\n    \"premium\": 120000,\n    \"coverage\": 100000000,\n    \"effective_date\": \"2026-06-01\",\n    \"expiration_date\": \"2027-06-01\"\n  }\n}"
+        }
+      },
+      "variables": [
+        { "key": "auth_token", "type": "string" },
+        { "key": "created_account_id", "type": "string" }
+      ],
+      "ports": {
+        "inputs": [
+          { "id": "start", "label": "start", "type": "trigger" },
+          { "id": "var_auth_token", "label": "auth_token", "type": "variable" },
+          { "id": "var_created_account_id", "label": "created_account_id", "type": "variable" }
+        ],
+        "outputs": [
+          { "id": "success", "label": "success", "type": "response" },
+          { "id": "failure", "label": "failure", "type": "error" }
+        ]
+      }
+    },
+    {
+      "id": "block_select_policy_id",
+      "type": "select",
+      "name": "Extract policy_id",
+      "position": { "x": 360, "y": 440 },
+      "config": {
+        "expression": "body.data.id",
+        "description": "Extracts created policy ID from Create Policy response"
+      },
+      "ports": {
+        "inputs": [
+          { "id": "input", "label": "input", "type": "data" }
+        ],
+        "outputs": [
+          { "id": "output", "label": "output", "type": "data" }
+        ]
+      }
+    },
+    {
+      "id": "block_get_policy",
+      "type": "httpRequest",
+      "name": "Get Policy by ID",
+      "mode": "manual",
+      "position": { "x": 80, "y": 620 },
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/policies/{{created_policy_id}}",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+        ]
+      },
+      "variables": [
+        { "key": "auth_token", "type": "string" },
+        { "key": "created_policy_id", "type": "string" }
+      ],
+      "ports": {
+        "inputs": [
+          { "id": "start", "label": "start", "type": "trigger" },
+          { "id": "var_auth_token", "label": "auth_token", "type": "variable" },
+          { "id": "var_created_policy_id", "label": "created_policy_id", "type": "variable" }
+        ],
+        "outputs": [
+          { "id": "success", "label": "success", "type": "response" },
+          { "id": "failure", "label": "failure", "type": "error" }
+        ]
+      }
+    },
+    {
+      "id": "block_update_policy",
+      "type": "httpRequest",
+      "name": "Update Policy (full)",
+      "mode": "manual",
+      "position": { "x": 80, "y": 800 },
+      "request": {
+        "method": "PATCH",
+        "url": "{{base_url}}/policies/{{created_policy_id}}",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"policy\": {\n    \"insurance_type\": \"professional_liability\",\n    \"status\": \"active\",\n    \"premium\": 150000,\n    \"coverage\": 200000000,\n    \"effective_date\": \"2026-06-01\",\n    \"expiration_date\": \"2027-06-01\"\n  }\n}"
+        }
+      },
+      "variables": [
+        { "key": "auth_token", "type": "string" },
+        { "key": "created_policy_id", "type": "string" }
+      ],
+      "ports": {
+        "inputs": [
+          { "id": "start", "label": "start", "type": "trigger" },
+          { "id": "var_auth_token", "label": "auth_token", "type": "variable" },
+          { "id": "var_created_policy_id", "label": "created_policy_id", "type": "variable" }
+        ],
+        "outputs": [
+          { "id": "success", "label": "success", "type": "response" },
+          { "id": "failure", "label": "failure", "type": "error" }
+        ]
+      }
+    },
+    {
+      "id": "block_get_policy_verify",
+      "type": "httpRequest",
+      "name": "Get Policy by ID (verify update)",
+      "mode": "manual",
+      "position": { "x": 80, "y": 980 },
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/policies/{{created_policy_id}}",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+        ]
+      },
+      "variables": [
+        { "key": "auth_token", "type": "string" },
+        { "key": "created_policy_id", "type": "string" }
+      ],
+      "ports": {
+        "inputs": [
+          { "id": "start", "label": "start", "type": "trigger" },
+          { "id": "var_auth_token", "label": "auth_token", "type": "variable" },
+          { "id": "var_created_policy_id", "label": "created_policy_id", "type": "variable" }
+        ],
+        "outputs": [
+          { "id": "success", "label": "success", "type": "response" },
+          { "id": "failure", "label": "failure", "type": "error" }
+        ]
+      }
+    },
+    {
+      "id": "block_delete_policy",
+      "type": "httpRequest",
+      "name": "Delete Policy",
+      "mode": "manual",
+      "position": { "x": 80, "y": 1160 },
+      "request": {
+        "method": "DELETE",
+        "url": "{{base_url}}/policies/{{created_policy_id}}",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+        ]
+      },
+      "variables": [
+        { "key": "auth_token", "type": "string" },
+        { "key": "created_policy_id", "type": "string" }
+      ],
+      "ports": {
+        "inputs": [
+          { "id": "start", "label": "start", "type": "trigger" },
+          { "id": "var_auth_token", "label": "auth_token", "type": "variable" },
+          { "id": "var_created_policy_id", "label": "created_policy_id", "type": "variable" }
+        ],
+        "outputs": [
+          { "id": "success", "label": "success", "type": "response" },
+          { "id": "failure", "label": "failure", "type": "error" }
+        ]
+      }
+    },
+    {
+      "id": "block_get_policy_404",
+      "type": "httpRequest",
+      "name": "Get Policy by ID (verify deletion)",
+      "mode": "manual",
+      "position": { "x": 80, "y": 1340 },
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/policies/{{created_policy_id}}",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+        ]
+      },
+      "variables": [
+        { "key": "auth_token", "type": "string" },
+        { "key": "created_policy_id", "type": "string" }
+      ],
+      "ports": {
+        "inputs": [
+          { "id": "start", "label": "start", "type": "trigger" },
+          { "id": "var_auth_token", "label": "auth_token", "type": "variable" },
+          { "id": "var_created_policy_id", "label": "created_policy_id", "type": "variable" }
+        ],
+        "outputs": [
+          { "id": "success", "label": "success", "type": "response" },
+          { "id": "failure", "label": "failure", "type": "error" }
+        ]
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn_start_login",
+      "source": { "blockId": "__start__", "portId": "start" },
+      "target": { "blockId": "block_login", "portId": "start" }
+    },
+    {
+      "id": "conn_login_to_select_token",
+      "source": { "blockId": "block_login", "portId": "success" },
+      "target": { "blockId": "block_select_auth_token", "portId": "input" }
+    },
+    {
+      "id": "conn_login_to_create_account",
+      "source": { "blockId": "block_login", "portId": "success" },
+      "target": { "blockId": "block_create_account", "portId": "start" }
+    },
+    {
+      "id": "conn_token_to_create_account",
+      "source": { "blockId": "block_select_auth_token", "portId": "output" },
+      "target": { "blockId": "block_create_account", "portId": "var_auth_token" }
+    },
+    {
+      "id": "conn_create_account_to_select_id",
+      "source": { "blockId": "block_create_account", "portId": "success" },
+      "target": { "blockId": "block_select_account_id", "portId": "input" }
+    },
+    {
+      "id": "conn_create_account_to_create_policy",
+      "source": { "blockId": "block_create_account", "portId": "success" },
+      "target": { "blockId": "block_create_policy", "portId": "start" }
+    },
+    {
+      "id": "conn_token_to_create_policy",
+      "source": { "blockId": "block_select_auth_token", "portId": "output" },
+      "target": { "blockId": "block_create_policy", "portId": "var_auth_token" }
+    },
+    {
+      "id": "conn_account_id_to_create_policy",
+      "source": { "blockId": "block_select_account_id", "portId": "output" },
+      "target": { "blockId": "block_create_policy", "portId": "var_created_account_id" }
+    },
+    {
+      "id": "conn_create_policy_to_select_policy_id",
+      "source": { "blockId": "block_create_policy", "portId": "success" },
+      "target": { "blockId": "block_select_policy_id", "portId": "input" }
+    },
+    {
+      "id": "conn_create_policy_to_get_policy",
+      "source": { "blockId": "block_create_policy", "portId": "success" },
+      "target": { "blockId": "block_get_policy", "portId": "start" }
+    },
+    {
+      "id": "conn_token_to_get_policy",
+      "source": { "blockId": "block_select_auth_token", "portId": "output" },
+      "target": { "blockId": "block_get_policy", "portId": "var_auth_token" }
+    },
+    {
+      "id": "conn_policy_id_to_get_policy",
+      "source": { "blockId": "block_select_policy_id", "portId": "output" },
+      "target": { "blockId": "block_get_policy", "portId": "var_created_policy_id" }
+    },
+    {
+      "id": "conn_get_policy_to_update",
+      "source": { "blockId": "block_get_policy", "portId": "success" },
+      "target": { "blockId": "block_update_policy", "portId": "start" }
+    },
+    {
+      "id": "conn_token_to_update",
+      "source": { "blockId": "block_select_auth_token", "portId": "output" },
+      "target": { "blockId": "block_update_policy", "portId": "var_auth_token" }
+    },
+    {
+      "id": "conn_policy_id_to_update",
+      "source": { "blockId": "block_select_policy_id", "portId": "output" },
+      "target": { "blockId": "block_update_policy", "portId": "var_created_policy_id" }
+    },
+    {
+      "id": "conn_update_to_get_verify",
+      "source": { "blockId": "block_update_policy", "portId": "success" },
+      "target": { "blockId": "block_get_policy_verify", "portId": "start" }
+    },
+    {
+      "id": "conn_token_to_get_verify",
+      "source": { "blockId": "block_select_auth_token", "portId": "output" },
+      "target": { "blockId": "block_get_policy_verify", "portId": "var_auth_token" }
+    },
+    {
+      "id": "conn_policy_id_to_get_verify",
+      "source": { "blockId": "block_select_policy_id", "portId": "output" },
+      "target": { "blockId": "block_get_policy_verify", "portId": "var_created_policy_id" }
+    },
+    {
+      "id": "conn_get_verify_to_delete",
+      "source": { "blockId": "block_get_policy_verify", "portId": "success" },
+      "target": { "blockId": "block_delete_policy", "portId": "start" }
+    },
+    {
+      "id": "conn_token_to_delete",
+      "source": { "blockId": "block_select_auth_token", "portId": "output" },
+      "target": { "blockId": "block_delete_policy", "portId": "var_auth_token" }
+    },
+    {
+      "id": "conn_policy_id_to_delete",
+      "source": { "blockId": "block_select_policy_id", "portId": "output" },
+      "target": { "blockId": "block_delete_policy", "portId": "var_created_policy_id" }
+    },
+    {
+      "id": "conn_delete_to_get_404",
+      "source": { "blockId": "block_delete_policy", "portId": "success" },
+      "target": { "blockId": "block_get_policy_404", "portId": "start" }
+    },
+    {
+      "id": "conn_token_to_get_404",
+      "source": { "blockId": "block_select_auth_token", "portId": "output" },
+      "target": { "blockId": "block_get_policy_404", "portId": "var_auth_token" }
+    },
+    {
+      "id": "conn_policy_id_to_get_404",
+      "source": { "blockId": "block_select_policy_id", "portId": "output" },
+      "target": { "blockId": "block_get_policy_404", "portId": "var_created_policy_id" }
+    }
+  ]
+}

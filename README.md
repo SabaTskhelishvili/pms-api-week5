@@ -108,10 +108,10 @@ Collection run via Postman Collection Runner on 2026-06-18:
 | Result | Count |
 |--------|-------|
 | Total requests | 41 |
-| Total assertions | **134** |
+| Total assertions | **135** |
 | Passed | **41** |
 | Failed | **0** |
-| Run duration | 7.9s |
+| Run duration | 8.5s |
 
 ## API Behavior Notes
 
@@ -129,14 +129,20 @@ During testing the following API behaviors were observed and test expectations w
 
 ## Documentation
 
-Full collection runner results are saved at `docs/collection_runner_results.txt` (41/41 passing, 134 assertions, 0 failures). A screenshot of the Collection Runner run is at `docs/screenshot-runner.png`.
+All test results, screenshots, and documentation are in the `docs/` folder.
 
-`docs/test_documentation.xlsx` contains five sheets:
-1. **Test Outlines** — 12 positive test cases with expected results
-2. **Request Catalog** — 14 positive requests with cURL commands
-3. **Negative Outlines** — 17 negative test cases covering 5 categories
-4. **Negative Request Catalog** — 17 negative requests with cURL commands, actual results, and bug comments
-5. **Bugs** — 3 filed bugs (BUG-001 through BUG-003) for API discrepancies (RBAC missing, empty error body)
+| File | Description |
+|------|-------------|
+| `docs/collection_runner_results.txt` | Full run output (41/41, 135 assertions, 0 failures) |
+| `docs/screenshot-runner.png` | Collection Runner screenshot for submission |
+| `docs/test_documentation.xlsx` | 5-sheet Excel: outlines, catalogs, bug reports |
+
+Additional supporting files:
+
+| File | Description |
+|------|-------------|
+| `collections/pms_environment.json` | Environment variables file — import into Postman to set `{{base_url}}`, `{{email}}`, `{{password}}`, etc. |
+| `flows/policy-lifecycle-flow.json` | Postman Flow definition — import via Postman Flows tab for a one-click visual CRUD pipeline |
 
 ## Notes
 
