@@ -66,8 +66,7 @@ The collection contains 7 top-level groups:
 |--------|-------|---------|
 | `Login` | 1 | Auth — single request |
 | `Create Account` | 1 | Account creation — single request |
-| `CRUD Lifecycle` | 8 | Sequential CRUD chain (for Collection Runner or Flow) |
-| `Flows` | 1 | `newman-flows`-compatible flow definition (FLOW method) |
+| `CRUD Lifecycle` | 8 | Sequential CRUD chain |
 | `Policies` | 10 | Positive policy tests + endorsements |
 | `Accounts` | 2 | Positive account tests |
 | `Negative Scenarios` | 19 | 2 setup + 17 negative tests |
@@ -119,16 +118,7 @@ Run it via **Collection Runner**: select only the `CRUD Lifecycle` folder and cl
 
 ### Postman Flow (Visual Pipeline)
 
-A **`Flows`** folder is included in the collection with a `newman-flows`-compatible definition (method: `FLOW`, pre-request script with `steps([...])`).
-
-For the **visual Postman Flow**, Postman's Flows tab does not support JSON import/export. Build it manually:
-1. Open Postman Desktop
-2. Go to **Flows** tab > **+ New Flow**
-3. Add 8 **HTTP Request** blocks pointing to each request in the `CRUD Lifecycle` folder
-4. Add 3 **Select** blocks to extract `auth_token` (Login → `body.token`), `account_id` (Create Account → `body.data.id`), `policy_id` (Create Policy → `body.data.id`)
-5. Wire blocks and variables as documented in `docs/flow-build-guide.md`
-6. Click **Run** to execute the full pipeline
-7. Screenshot the canvas and save to `docs/screenshot-flow.png`
+Build a visual Flow in Postman's Flows tab using `docs/flow-build-guide.md`.
 
 ## Test Results (Actual)
 
@@ -166,7 +156,6 @@ All test results, screenshots, and documentation are in the `docs/` folder.
 | `docs/screenshot-runner.png` | Collection Runner screenshot for submission |
 | `docs/test_documentation.xlsx` | 5-sheet Excel: outlines, catalogs, bug reports |
 | `docs/flow-build-guide.md` | Step-by-step instructions for building the Flow in Postman Flows tab |
-| `flows/policy-lifecycle-flow.json` | Flow blueprint (reference only — Postman cannot import this format; build manually) |
 | `collections/pms_environment.json` | Environment variables — import into Postman to set `{{base_url}}`, `{{email}}`, `{{password}}`, etc. |
 
 ## Notes

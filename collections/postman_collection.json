@@ -244,7 +244,13 @@
           ],
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
@@ -302,6 +308,11 @@
               {
                 "key": "Authorization",
                 "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
               }
             ],
             "body": {
@@ -356,6 +367,11 @@
               {
                 "key": "Authorization",
                 "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
               }
             ],
             "body": {
@@ -453,6 +469,11 @@
               {
                 "key": "Authorization",
                 "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
               }
             ],
             "body": {
@@ -614,48 +635,6 @@
             }
           },
           "_postman_id": "c76d2737-8dc4-4051-b3c5-f0cfb2b9ccd6"
-        }
-      ]
-    },
-    {
-      "name": "Flows",
-      "item": [
-        {
-          "name": "Policy CRUD Lifecycle Flow",
-          "event": [
-            {
-              "listen": "prerequest",
-              "script": {
-                "exec": [
-                  "steps([",
-                  "  'CRUD Lifecycle/Login',",
-                  "  'CRUD Lifecycle/Create Account',",
-                  "  'CRUD Lifecycle/Create Policy',",
-                  "  'CRUD Lifecycle/Get Policy by ID',",
-                  "  'CRUD Lifecycle/Update Policy (full)',",
-                  "  'CRUD Lifecycle/Get Policy by ID (verify update)',",
-                  "  'CRUD Lifecycle/Delete Policy',",
-                  "  'CRUD Lifecycle/Get Policy by ID (verify deletion)'",
-                  "]);"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "FLOW",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                ""
-              ]
-            }
-          },
-          "response": []
         }
       ]
     },
